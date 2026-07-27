@@ -36,6 +36,7 @@ const SettingsManager = (() => {
     removeDuplicates: true, ignoreCase: false, ignoreTrimSpaces: true,
     ignoreMultipleSpaces: false, removeEmpty: true, trimSpaces: true,
     sortOutput: false, reverseOutput: false, caseSensitive: false, regexMode: false,
+    removeUrls: false, removeColonAfterUrl: false,
     filterKeep: '', filterRemove: '',
     advStartsWith: '', advEndsWith: '', advContains: '', advNotContains: '',
     advMinLength: '', advMaxLength: '', advRegexInclude: '', advRegexExclude: '',
@@ -56,6 +57,8 @@ const SettingsManager = (() => {
       reverseOutput: document.getElementById('opt-reverseOutput').checked,
       caseSensitive: document.getElementById('opt-caseSensitive').checked,
       regexMode: document.getElementById('opt-regexMode').checked,
+      removeUrls: document.getElementById('opt-removeUrls').checked,
+      removeColonAfterUrl: document.getElementById('opt-removeColonAfterUrl').checked,
       filterKeep: document.getElementById('filter-keep').value,
       filterRemove: document.getElementById('filter-remove').value,
       advStartsWith: document.getElementById('adv-startsWith').value,
@@ -82,6 +85,8 @@ const SettingsManager = (() => {
     document.getElementById('opt-reverseOutput').checked = s.reverseOutput;
     document.getElementById('opt-caseSensitive').checked = s.caseSensitive;
     document.getElementById('opt-regexMode').checked = s.regexMode;
+    document.getElementById('opt-removeUrls').checked = s.removeUrls;
+    document.getElementById('opt-removeColonAfterUrl').checked = s.removeColonAfterUrl;
     document.getElementById('filter-keep').value = s.filterKeep;
     document.getElementById('filter-remove').value = s.filterRemove;
     document.getElementById('adv-startsWith').value = s.advStartsWith;
@@ -134,6 +139,8 @@ const SettingsManager = (() => {
       reverseOutput: s.reverseOutput,
       caseSensitive: s.caseSensitive,
       regexMode: s.regexMode,
+      removeUrls: s.removeUrls,
+      removeColonAfterUrl: s.removeColonAfterUrl,
       keepKeywords: parseList(s.filterKeep),
       removeKeywords: parseList(s.filterRemove),
       startsWith: s.advStartsWith,

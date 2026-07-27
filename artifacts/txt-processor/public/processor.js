@@ -11,7 +11,15 @@ self.Processor = {
     if (options.trimSpaces) line = line.trim();
     // Remove multiple spaces
     if (options.ignoreMultipleSpaces) line = line.replace(/\s+/g, ' ');
-    // Remove empty
+    // Remove colon immediately after a URL (e.g. "https://example.com: text" → "https://example.com text")
+    if (options.removeColonAfterUrl) {
+      line = line.replace(/((?:https?|ftp):\/\/[^\s]*):(\s|$)/g, '$1$2');
+    }
+    // Strip URLs entirely from the line, then re-collapse spaces
+    if (options.removeUrls) {
+      line = line.replace(/(?:https?|ftp):\/\/\S*/gi, '').replace(/\s+/g, ' ').trim();
+    }
+    // Remove empty (re-checked here so URL-stripped lines are also caught)
     if (options.removeEmpty && line.length === 0) return null;
     return line;
   },
