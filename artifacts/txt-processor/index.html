@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TXT Processor Pro</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="header-left">
+        <h1>TXT Processor Pro <span class="badge">v1.0</span></h1>
+      </div>
+      <div class="header-right">
+        <button id="theme-toggle" class="icon-btn" title="Toggle Theme (Ctrl+T)">🌙</button>
+        <span class="hint">Press ? for shortcuts</span>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="card" id="card-import">
+        <h2>Import TXT</h2>
+        <div class="drop-zone" id="drop-zone">
+          <div class="drop-icon">📂</div>
+          <p>Drag & Drop your TXT file here or</p>
+          <button class="btn btn-primary" id="btn-browse">Browse</button>
+          <input type="file" id="file-input" accept=".txt,text/plain" hidden />
+        </div>
+        <div class="file-info hidden" id="file-info">
+          <div class="file-info-item"><strong>File:</strong> <span id="info-filename">-</span></div>
+          <div class="file-info-item"><strong>Size:</strong> <span id="info-size">-</span></div>
+          <div class="file-info-item"><strong>Estimated Lines:</strong> <span id="info-lines">-</span></div>
+          <div class="file-info-item"><strong>Encoding:</strong> UTF-8</div>
+        </div>
+      </section>
+
+      <section class="card" id="card-options">
+        <div class="card-header">
+          <h2>Processing Options</h2>
+          <div class="preset-controls">
+            <select id="preset-select" class="input-field preset-select">
+              <option value="">Load Preset...</option>
+            </select>
+            <button id="btn-save-preset" class="btn btn-neutral btn-small">Save Preset</button>
+          </div>
+        </div>
+        <div class="options-grid">
+          <div class="options-col">
+            <label class="checkbox-label"><input type="checkbox" id="opt-removeDuplicates" checked> Remove duplicate lines</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-ignoreCase"> Ignore case when deduplicating</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-ignoreTrimSpaces" checked> Ignore leading/trailing spaces</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-ignoreMultipleSpaces"> Ignore multiple internal spaces</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-removeEmpty" checked> Remove empty lines</label>
+          </div>
+          <div class="options-col">
+            <label class="checkbox-label"><input type="checkbox" id="opt-trimSpaces" checked> Trim spaces</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-sortOutput"> Sort output A-Z</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-reverseOutput"> Reverse output</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-caseSensitive"> Case-sensitive search</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-regexMode"> Regex mode</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="card-filters">
+        <h2>Filters</h2>
+        <div class="filters-grid">
+          <div class="filter-section">
+            <label for="filter-keep">Keep lines (Search):</label>
+            <textarea id="filter-keep" class="input-field textarea-fixed" placeholder="apple&#10;gmail&#10;hotmail" rows="4"></textarea>
+            <small class="help-text">One keyword per line. Keep lines containing ANY keyword.</small>
+          </div>
+          <div class="filter-section">
+            <label for="filter-remove">Remove lines:</label>
+            <textarea id="filter-remove" class="input-field textarea-fixed" placeholder="spam&#10;fake&#10;ads" rows="4"></textarea>
+            <small class="help-text">One keyword per line. Remove lines containing ANY keyword.</small>
+          </div>
+        </div>
+        
+        <div class="advanced-filters">
+          <h3>Advanced Filters</h3>
+          <div class="adv-filters-grid">
+            <div class="input-group">
+              <label>Starts With</label>
+              <input type="text" id="adv-startsWith" class="input-field">
+            </div>
+            <div class="input-group">
+              <label>Ends With</label>
+              <input type="text" id="adv-endsWith" class="input-field">
+            </div>
+            <div class="input-group">
+              <label>Contains</label>
+              <input type="text" id="adv-contains" class="input-field">
+            </div>
+            <div class="input-group">
+              <label>Does Not Contain</label>
+              <input type="text" id="adv-notContains" class="input-field">
+            </div>
+            <div class="input-group">
+              <label>Min Length</label>
+              <input type="number" id="adv-minLength" class="input-field" min="0">
+            </div>
+            <div class="input-group">
+              <label>Max Length</label>
+              <input type="number" id="adv-maxLength" class="input-field" min="0">
+            </div>
+            <div class="input-group">
+              <label>Regex Include</label>
+              <input type="text" id="adv-regexInclude" class="input-field">
+            </div>
+            <div class="input-group">
+              <label>Regex Exclude</label>
+              <input type="text" id="adv-regexExclude" class="input-field">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card hidden" id="card-stats">
+        <h2>Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Original Lines</div>
+            <div class="stat-value" id="stat-original">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Processed (Kept)</div>
+            <div class="stat-value text-success" id="stat-processed">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Duplicates Removed</div>
+            <div class="stat-value text-warning" id="stat-duplicates">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Empty Removed</div>
+            <div class="stat-value text-warning" id="stat-empty">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Filtered Out</div>
+            <div class="stat-value text-danger" id="stat-filtered">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Exported Lines</div>
+            <div class="stat-value text-success" id="stat-exported">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Elapsed Time</div>
+            <div class="stat-value" id="stat-elapsed">00:00:00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Speed</div>
+            <div class="stat-value" id="stat-speed">0 lines/s</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">ETA</div>
+            <div class="stat-value" id="stat-eta">-</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Memory Usage</div>
+            <div class="stat-value" id="stat-memory">-</div>
+          </div>
+        </div>
+        
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text" id="progress-text">0%</div>
+        </div>
+
+        <div class="speed-graph-container">
+          <canvas id="speed-graph" height="80"></canvas>
+        </div>
+      </section>
+
+      <section class="card" id="card-actions">
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-import">Import</button>
+          <button class="btn btn-success" id="btn-start" disabled>Start</button>
+          <button class="btn btn-warning" id="btn-pause" disabled>Pause</button>
+          <button class="btn btn-primary hidden" id="btn-resume">Resume</button>
+          <button class="btn btn-danger" id="btn-cancel" disabled>Cancel</button>
+          <button class="btn btn-neutral" id="btn-reset">Reset</button>
+          <button class="btn btn-primary" id="btn-export" disabled>Export</button>
+        </div>
+      </section>
+
+      <section class="card" id="card-export">
+        <h2>Export</h2>
+        <div class="export-group">
+          <label>Filename</label>
+          <input type="text" id="export-filename" class="input-field" value="output.txt">
+        </div>
+        <p class="help-text">Output is always UTF-8 encoded text format.</p>
+        <div id="export-summary" class="export-summary hidden"></div>
+      </section>
+      
+      <section class="card history-card" id="card-history">
+        <div class="card-header cursor-pointer" id="history-toggle">
+          <h2>Statistics History</h2>
+          <span id="history-chevron" class="chevron">▼</span>
+        </div>
+        <div class="history-list hidden" id="history-list">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>TXT Processor Pro v1.0 | Pure HTML/CSS/JS | No server required</p>
+      <p class="shortcuts-hint">Shortcuts: Ctrl+O (Open) • Ctrl+Enter (Start) • Ctrl+P (Pause) • Ctrl+E (Export) • Esc (Cancel) • Ctrl+R (Reset)</p>
+    </footer>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Export Ready</h2>
+      <div id="modal-content" class="modal-content-area"></div>
+      <div class="modal-actions">
+        <button class="btn btn-neutral" id="btn-modal-close">Close</button>
+        <button class="btn btn-primary" id="btn-modal-download">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="shortcuts-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Keyboard Shortcuts</h2>
+      <ul class="shortcuts-list">
+        <li><kbd>Ctrl</kbd> + <kbd>O</kbd> <span>Open file picker</span></li>
+        <li><kbd>Ctrl</kbd> + <kbd>Enter</kbd> <span>Start processing</span></li>
+        <li><kbd>Ctrl</kbd> + <kbd>P</kbd> <span>Pause / Resume</span></li>
+        <li><kbd>Ctrl</kbd> + <kbd>E</kbd> <span>Export</span></li>
+        <li><kbd>Esc</kbd> <span>Cancel processing / Close modals</span></li>
+        <li><kbd>Ctrl</kbd> + <kbd>R</kbd> <span>Reset UI</span></li>
+        <li><kbd>Ctrl</kbd> + <kbd>T</kbd> <span>Toggle Theme</span></li>
+        <li><kbd>?</kbd> <span>Show this help</span></li>
+      </ul>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btn-close-shortcuts">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./exporter.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

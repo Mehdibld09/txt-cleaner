@@ -1,0 +1,381 @@
+Create a COMPLETE professional offline web application called "TXT Processor Pro".
+
+IMPORTANT:
+- Return the FULL source code.
+- Do NOT simplify anything.
+- Do NOT omit any code.
+- Do NOT write "code continues".
+- Produce every file completely.
+- The application must work immediately after opening index.html.
+- No external libraries.
+- No CDN.
+- No frameworks.
+- No Node.js.
+- No npm.
+- Pure HTML, CSS and JavaScript only.
+
+Project structure:
+
+index.html
+style.css
+app.js
+worker.js
+processor.js
+exporter.js
+
+=========================
+GOAL
+=========================
+
+The application must process extremely large TXT files (10 million+ lines).
+
+The text must NEVER be rendered on screen.
+
+The application should stream/process the file in chunks and generate a new downloadable TXT file.
+
+The UI must stay responsive during processing.
+
+Use Web Workers whenever possible.
+
+Optimize everything for low-end computers.
+
+=========================
+UI
+=========================
+
+Modern dark UI
+
+Rounded corners
+
+Blue accent colors
+
+Responsive layout
+
+Professional dashboard
+
+Top section:
+- App title
+- Version
+- Theme toggle
+
+Main cards:
+
+Import TXT
+
+Processing
+
+Filters
+
+Statistics
+
+Export
+
+Footer
+
+=========================
+IMPORT
+=========================
+
+Support
+
+TXT
+
+Drag & Drop
+
+Browse button
+
+Display
+
+Filename
+
+File size
+
+Estimated lines
+
+Encoding
+
+=========================
+PROCESSING OPTIONS
+=========================
+
+Checkboxes
+
+✓ Remove duplicate lines
+
+✓ Ignore case
+
+✓ Ignore leading/trailing spaces
+
+✓ Ignore multiple spaces
+
+✓ Remove empty lines
+
+✓ Trim spaces
+
+✓ Sort output
+
+✓ Reverse output
+
+✓ Case-sensitive search
+
+✓ Regex mode
+
+=========================
+SEARCH
+=========================
+
+Textarea
+
+Each line is a keyword
+
+Keep every line containing ANY keyword
+
+Example
+
+apple
+gmail
+hotmail
+
+=========================
+REMOVE WORDS
+=========================
+
+Textarea
+
+Remove every line containing ANY keyword
+
+spam
+fake
+ads
+
+=========================
+ADVANCED FILTERS
+=========================
+
+Starts With
+
+Ends With
+
+Contains
+
+Does Not Contain
+
+Minimum length
+
+Maximum length
+
+Regex include
+
+Regex exclude
+
+=========================
+STATISTICS
+=========================
+
+Live updating
+
+Original lines
+
+Processed lines
+
+Exported lines
+
+Removed duplicates
+
+Filtered lines
+
+Empty removed
+
+Elapsed time
+
+Lines/sec
+
+ETA
+
+Memory usage (if available)
+
+Progress %
+
+Progress bar
+
+=========================
+BUTTONS
+=========================
+
+Import
+
+Start
+
+Pause
+
+Resume
+
+Cancel
+
+Reset
+
+Export
+
+=========================
+EXPORT
+=========================
+
+Generate new TXT
+
+Download automatically
+
+Allow filename selection
+
+=========================
+PERFORMANCE
+=========================
+
+NEVER use
+
+text.split("\n")
+
+on the entire file.
+
+Instead
+
+Use File.stream()
+
+ReadableStream
+
+TextDecoderStream
+
+Chunk processing
+
+Handle unfinished line between chunks correctly.
+
+=========================
+MEMORY
+=========================
+
+Never render millions of lines.
+
+Never create giant arrays.
+
+Never freeze UI.
+
+Use efficient buffers.
+
+Duplicate detection must use Set.
+
+Normalize keys according to selected options.
+
+=========================
+WEB WORKER
+=========================
+
+Move all heavy processing into worker.js.
+
+The UI thread must only update progress.
+
+=========================
+FEATURES
+=========================
+
+Support files larger than 2GB if browser allows.
+
+Handle UTF-8.
+
+Handle Windows and Linux line endings.
+
+Allow cancellation at any moment.
+
+Allow pausing.
+
+Allow resuming.
+
+Prevent browser crashes.
+
+=========================
+ERROR HANDLING
+=========================
+
+Corrupted file
+
+Empty file
+
+Invalid encoding
+
+Cancelled processing
+
+Out of memory
+
+Graceful messages
+
+=========================
+DESIGN
+=========================
+
+Professional dashboard
+
+Animated progress bar
+
+Smooth transitions
+
+Cards
+
+Icons using Unicode only
+
+No images
+
+No external fonts
+
+=========================
+CODE QUALITY
+=========================
+
+Well commented
+
+Modular
+
+Readable
+
+Reusable
+
+No duplicated code
+
+No global pollution
+
+ES2022
+
+=========================
+BONUS FEATURES
+=========================
+
+Estimated remaining time
+
+Speed graph
+
+Save settings in LocalStorage
+
+Keyboard shortcuts
+
+Auto dark/light mode
+
+Recent files history
+
+Filter presets
+
+Statistics history
+
+Export summary dialog
+
+=========================
+FINAL REQUIREMENTS
+=========================
+
+Return ALL project files.
+
+Do not summarize.
+
+Do not explain.
+
+Do not omit code.
+
+Output every file completely.
+
+The result should be a production-quality application capable of processing huge TXT files efficiently while keeping the browser responsive.

@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "TXT Processor Pro"
+version = "1.0.0"
+id = "artifacts/txt-processor"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23029
+
+[services.development]
+run = "pnpm --filter @workspace/txt-processor run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/txt-processor", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/txt-processor/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23029"
+BASE_PATH = "/"
