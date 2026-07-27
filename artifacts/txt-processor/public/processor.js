@@ -35,6 +35,31 @@ self.Processor = {
   },
 
   /**
+   * Strip keywords from within a line (used when removeWordsOnly is true).
+   * Returns the transformed line (may be empty string).
+   */
+  removeWordsFromLine(line, options) {
+    if (!options.removeKeywords || options.removeKeywords.length === 0) return line;
+    let result = line;
+    for (const kw of options.removeKeywords) {
+      if (!kw) continue;
+      if (options.regexMode) {
+        try {
+          const r = new RegExp(kw, options.caseSensitive ? 'g' : 'gi');
+          result = result.replace(r, '');
+        } catch {}
+      } else {
+        // Escape special regex chars for a literal word match
+        const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const r = new RegExp(escaped, options.caseSensitive ? 'g' : 'gi');
+        result = result.replace(r, '');
+      }
+    }
+    // Collapse any extra spaces left behind and trim
+    return result.replace(/\s+/g, ' ').trim();
+  },
+
+  /**
    * Compile all filter functions from options. Returns a function that
    * takes a normalized line and returns true if the line should be KEPT.
    */
@@ -56,8 +81,8 @@ self.Processor = {
       }
     }
 
-    // Remove-keywords
-    if (options.removeKeywords && options.removeKeywords.length > 0) {
+    // Remove-keywords (only filter whole lines when removeWordsOnly is false)
+    if (!options.removeWordsOnly && options.removeKeywords && options.removeKeywords.length > 0) {
       const kw = options.removeKeywords;
       if (options.regexMode) {
         const regs = kw.map(k => { try { return new RegExp(k, options.caseSensitive ? '' : 'i'); } catch { return null; } }).filter(Boolean);

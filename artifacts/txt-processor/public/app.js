@@ -36,7 +36,7 @@ const SettingsManager = (() => {
     removeDuplicates: true, ignoreCase: false, ignoreTrimSpaces: true,
     ignoreMultipleSpaces: false, removeEmpty: true, trimSpaces: true,
     sortOutput: false, reverseOutput: false, caseSensitive: false, regexMode: false,
-    removeUrls: false, removeColonAfterUrl: false,
+    removeUrls: false, removeColonAfterUrl: false, removeWordsOnly: false,
     filterKeep: '', filterRemove: '',
     advStartsWith: '', advEndsWith: '', advContains: '', advNotContains: '',
     advMinLength: '', advMaxLength: '', advRegexInclude: '', advRegexExclude: '',
@@ -59,6 +59,7 @@ const SettingsManager = (() => {
       regexMode: document.getElementById('opt-regexMode').checked,
       removeUrls: document.getElementById('opt-removeUrls').checked,
       removeColonAfterUrl: document.getElementById('opt-removeColonAfterUrl').checked,
+      removeWordsOnly: document.getElementById('opt-removeWordsOnly').checked,
       filterKeep: document.getElementById('filter-keep').value,
       filterRemove: document.getElementById('filter-remove').value,
       advStartsWith: document.getElementById('adv-startsWith').value,
@@ -87,6 +88,7 @@ const SettingsManager = (() => {
     document.getElementById('opt-regexMode').checked = s.regexMode;
     document.getElementById('opt-removeUrls').checked = s.removeUrls;
     document.getElementById('opt-removeColonAfterUrl').checked = s.removeColonAfterUrl;
+    document.getElementById('opt-removeWordsOnly').checked = s.removeWordsOnly;
     document.getElementById('filter-keep').value = s.filterKeep;
     document.getElementById('filter-remove').value = s.filterRemove;
     document.getElementById('adv-startsWith').value = s.advStartsWith;
@@ -141,6 +143,7 @@ const SettingsManager = (() => {
       regexMode: s.regexMode,
       removeUrls: s.removeUrls,
       removeColonAfterUrl: s.removeColonAfterUrl,
+      removeWordsOnly: s.removeWordsOnly,
       keepKeywords: parseList(s.filterKeep),
       removeKeywords: parseList(s.filterRemove),
       startsWith: s.advStartsWith,

@@ -76,7 +76,8 @@
           <div class="filter-section">
             <label for="filter-remove">Remove lines:</label>
             <textarea id="filter-remove" class="input-field textarea-fixed" placeholder="spam&#10;fake&#10;ads" rows="4"></textarea>
-            <small class="help-text">One keyword per line. Remove lines containing ANY keyword.</small>
+            <label class="checkbox-label" style="margin-top:6px"><input type="checkbox" id="opt-removeWordsOnly"> Remove words only (strip keyword from line, don't delete line)</label>
+            <small class="help-text">One keyword per line. Remove lines containing ANY keyword (or strip words if above is checked).</small>
           </div>
         </div>
         

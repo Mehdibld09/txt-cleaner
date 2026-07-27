@@ -180,9 +180,20 @@ async function processRawLine(rawLine, options, filter, seenKeys, needsSort) {
     return;
   }
 
+  // Strip keywords from within the line (when removeWordsOnly is enabled)
+  let line = options.removeWordsOnly
+    ? self.Processor.removeWordsFromLine(normalized, options)
+    : normalized;
+
+  // If word-stripping left the line empty and removeEmpty is on, drop it
+  if (options.removeWordsOnly && options.removeEmpty && line.length === 0) {
+    stats.emptyRemoved++;
+    return;
+  }
+
   // Deduplication
   if (options.removeDuplicates) {
-    const key = self.Processor.dedupKey(normalized, options);
+    const key = self.Processor.dedupKey(line, options);
     if (seenKeys.has(key)) {
       stats.duplicatesRemoved++;
       return;
@@ -191,7 +202,7 @@ async function processRawLine(rawLine, options, filter, seenKeys, needsSort) {
   }
 
   // Filtering
-  if (!filter(normalized)) {
+  if (!filter(line)) {
     stats.filteredOut++;
     return;
   }
@@ -200,9 +211,9 @@ async function processRawLine(rawLine, options, filter, seenKeys, needsSort) {
   stats.processedLines++;
 
   if (needsSort) {
-    allOutputLines.push(normalized);
+    allOutputLines.push(line);
   } else {
-    const encoded = encoder.encode(normalized + '\n');
+    const encoded = encoder.encode(line + '\n');
     outputBuffer.push(encoded);
     outputBufferBytes += encoded.byteLength;
     if (outputBufferBytes >= OUTPUT_CHUNK_SIZE) {
