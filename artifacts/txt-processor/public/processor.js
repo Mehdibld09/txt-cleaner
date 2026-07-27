@@ -15,9 +15,18 @@ self.Processor = {
     if (options.removeColonAfterUrl) {
       line = line.replace(/((?:https?|ftp):\/\/[^\s]*):(\s|$)/g, '$1$2');
     }
-    // Strip URLs entirely from the line, then re-collapse spaces
+    // Remove URL/domain prefix:
+    // Handles both http(s):// style URLs and bare domain:rest format
+    // e.g. "web.site:user:username"  →  "user:username"
+    //      "https://web.site/path"   →  ""  (dropped by removeEmpty if enabled)
     if (options.removeUrls) {
-      line = line.replace(/(?:https?|ftp):\/\/\S*/gi, '').replace(/\s+/g, ' ').trim();
+      // 1. Strip bare domain prefix: domain.tld: or domain.tld:port:
+      //    Must start the line, contain a dot, and be followed by a colon separator.
+      line = line.replace(/^[a-zA-Z0-9][a-zA-Z0-9.\-]*\.[a-zA-Z]{2,}(?::\d+)?:/, '');
+      // 2. Strip http(s):// and ftp:// URLs anywhere in the line
+      line = line.replace(/(?:https?|ftp):\/\/\S*/gi, '');
+      // 3. Collapse any leftover spaces
+      line = line.replace(/\s+/g, ' ').trim();
     }
     // Remove empty (re-checked here so URL-stripped lines are also caught)
     if (options.removeEmpty && line.length === 0) return null;
