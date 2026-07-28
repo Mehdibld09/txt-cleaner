@@ -20,9 +20,11 @@ self.Processor = {
     // e.g. "web.site:user:username"  →  "user:username"
     //      "https://web.site/path"   →  ""  (dropped by removeEmpty if enabled)
     if (options.removeUrls) {
-      // 1. Strip bare domain prefix: domain.tld: or domain.tld:port:
-      //    Must start the line, contain a dot, and be followed by a colon separator.
-      line = line.replace(/^[a-zA-Z0-9][a-zA-Z0-9.\-]*\.[a-zA-Z]{2,}(?::\d+)?:/, '');
+      // 1. Strip bare domain prefix, including an optional path:
+      //    "web.site:user:username" → "user:username"
+      //    "web.site/path/:password" → "password"
+      //    The first colon after the domain/path is the credential separator.
+      line = line.replace(/^[a-zA-Z0-9][a-zA-Z0-9.\-]*\.[a-zA-Z]{2,}(?:\/[^:]*)?:/, '');
       // 2. Strip http(s):// and ftp:// URLs anywhere in the line
       line = line.replace(/(?:https?|ftp):\/\/\S*/gi, '');
       // 3. Collapse any leftover spaces
