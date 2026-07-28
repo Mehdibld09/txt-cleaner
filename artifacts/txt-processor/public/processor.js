@@ -25,6 +25,10 @@ self.Processor = {
       //    "web.site/path/:password" → "password"
       //    The first colon after the domain/path is the credential separator.
       line = line.replace(/^[a-zA-Z0-9][a-zA-Z0-9.\-]*\.[a-zA-Z]{2,}(?:\/[^:]*)?:/, '');
+      // In URL-only mode, keep credential pairs only. A single value such as
+      // "site.example:username" is discarded; "site.example:user:pass" remains
+      // "user:pass". Additional colons in the remainder are preserved.
+      if (options.removeUrlOnly && !line.includes(':')) return null;
       // The URL-only mode intentionally does not strip anything else:
       // "site.example/path:user:password" → "user:password"
       if (options.removeUrls && !options.removeUrlOnly) {
