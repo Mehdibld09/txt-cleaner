@@ -36,7 +36,7 @@ const SettingsManager = (() => {
     removeDuplicates: true, ignoreCase: false, ignoreTrimSpaces: true,
     ignoreMultipleSpaces: false, removeEmpty: true, trimSpaces: true,
     sortOutput: false, reverseOutput: false, caseSensitive: false, regexMode: false,
-    removeUrls: false, removeColonAfterUrl: false, removeWordsOnly: false,
+    removeUrls: false, removeColonAfterUrl: false, removeEmails: false, removeWordsOnly: false,
     filterKeep: '', filterRemove: '',
     advStartsWith: '', advEndsWith: '', advContains: '', advNotContains: '',
     advMinLength: '', advMaxLength: '', advRegexInclude: '', advRegexExclude: '',
@@ -59,6 +59,7 @@ const SettingsManager = (() => {
       regexMode: document.getElementById('opt-regexMode').checked,
       removeUrls: document.getElementById('opt-removeUrls').checked,
       removeColonAfterUrl: document.getElementById('opt-removeColonAfterUrl').checked,
+      removeEmails: document.getElementById('opt-removeEmails').checked,
       removeWordsOnly: document.getElementById('opt-removeWordsOnly').checked,
       filterKeep: document.getElementById('filter-keep').value,
       filterRemove: document.getElementById('filter-remove').value,
@@ -88,6 +89,7 @@ const SettingsManager = (() => {
     document.getElementById('opt-regexMode').checked = s.regexMode;
     document.getElementById('opt-removeUrls').checked = s.removeUrls;
     document.getElementById('opt-removeColonAfterUrl').checked = s.removeColonAfterUrl;
+    document.getElementById('opt-removeEmails').checked = s.removeEmails;
     document.getElementById('opt-removeWordsOnly').checked = s.removeWordsOnly;
     document.getElementById('filter-keep').value = s.filterKeep;
     document.getElementById('filter-remove').value = s.filterRemove;
@@ -143,6 +145,7 @@ const SettingsManager = (() => {
       regexMode: s.regexMode,
       removeUrls: s.removeUrls,
       removeColonAfterUrl: s.removeColonAfterUrl,
+      removeEmails: s.removeEmails,
       removeWordsOnly: s.removeWordsOnly,
       keepKeywords: parseList(s.filterKeep),
       removeKeywords: parseList(s.filterRemove),

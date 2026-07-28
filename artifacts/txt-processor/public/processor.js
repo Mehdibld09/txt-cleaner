@@ -28,6 +28,10 @@ self.Processor = {
       // 3. Collapse any leftover spaces
       line = line.replace(/\s+/g, ' ').trim();
     }
+    // Drop entire line if it contains an email address
+    if (options.removeEmails && /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/.test(line)) {
+      return null;
+    }
     // Remove empty (re-checked here so URL-stripped lines are also caught)
     if (options.removeEmpty && line.length === 0) return null;
     return line;
