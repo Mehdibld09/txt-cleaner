@@ -19,16 +19,20 @@ self.Processor = {
     // Handles both http(s):// style URLs and bare domain:rest format
     // e.g. "web.site:user:username"  →  "user:username"
     //      "https://web.site/path"   →  ""  (dropped by removeEmpty if enabled)
-    if (options.removeUrls) {
+    if (options.removeUrls || options.removeUrlOnly) {
       // 1. Strip bare domain prefix, including an optional path:
       //    "web.site:user:username" → "user:username"
       //    "web.site/path/:password" → "password"
       //    The first colon after the domain/path is the credential separator.
       line = line.replace(/^[a-zA-Z0-9][a-zA-Z0-9.\-]*\.[a-zA-Z]{2,}(?:\/[^:]*)?:/, '');
-      // 2. Strip http(s):// and ftp:// URLs anywhere in the line
-      line = line.replace(/(?:https?|ftp):\/\/\S*/gi, '');
-      // 3. Collapse any leftover spaces
-      line = line.replace(/\s+/g, ' ').trim();
+      // The URL-only mode intentionally does not strip anything else:
+      // "site.example/path:user:password" → "user:password"
+      if (options.removeUrls && !options.removeUrlOnly) {
+        // Strip http(s):// and ftp:// URLs anywhere in the line
+        line = line.replace(/(?:https?|ftp):\/\/\S*/gi, '');
+        // Collapse any leftover spaces after removing a full URL
+        line = line.replace(/\s+/g, ' ').trim();
+      }
     }
     // Drop entire line if it contains an email address
     if (options.removeEmails && /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/.test(line)) {

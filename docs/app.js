@@ -36,7 +36,7 @@ const SettingsManager = (() => {
     removeDuplicates: true, ignoreCase: false, ignoreTrimSpaces: true,
     ignoreMultipleSpaces: false, removeEmpty: true, trimSpaces: true,
     sortOutput: false, reverseOutput: false, caseSensitive: false, regexMode: false,
-    removeUrls: false, removeColonAfterUrl: false, removeEmails: false, removeWordsOnly: false,
+    removeUrls: false, removeUrlOnly: false, removeColonAfterUrl: false, removeEmails: false, removeWordsOnly: false,
     filterKeep: '', filterRemove: '',
     advStartsWith: '', advEndsWith: '', advContains: '', advNotContains: '',
     advMinLength: '', advMaxLength: '', advRegexInclude: '', advRegexExclude: '',
@@ -58,6 +58,7 @@ const SettingsManager = (() => {
       caseSensitive: document.getElementById('opt-caseSensitive').checked,
       regexMode: document.getElementById('opt-regexMode').checked,
       removeUrls: document.getElementById('opt-removeUrls').checked,
+      removeUrlOnly: document.getElementById('opt-removeUrlOnly').checked,
       removeColonAfterUrl: document.getElementById('opt-removeColonAfterUrl').checked,
       removeEmails: document.getElementById('opt-removeEmails').checked,
       removeWordsOnly: document.getElementById('opt-removeWordsOnly').checked,
@@ -88,6 +89,7 @@ const SettingsManager = (() => {
     document.getElementById('opt-caseSensitive').checked = s.caseSensitive;
     document.getElementById('opt-regexMode').checked = s.regexMode;
     document.getElementById('opt-removeUrls').checked = s.removeUrls;
+    document.getElementById('opt-removeUrlOnly').checked = s.removeUrlOnly;
     document.getElementById('opt-removeColonAfterUrl').checked = s.removeColonAfterUrl;
     document.getElementById('opt-removeEmails').checked = s.removeEmails;
     document.getElementById('opt-removeWordsOnly').checked = s.removeWordsOnly;
@@ -144,6 +146,7 @@ const SettingsManager = (() => {
       caseSensitive: s.caseSensitive,
       regexMode: s.regexMode,
       removeUrls: s.removeUrls,
+      removeUrlOnly: s.removeUrlOnly,
       removeColonAfterUrl: s.removeColonAfterUrl,
       removeEmails: s.removeEmails,
       removeWordsOnly: s.removeWordsOnly,
